@@ -27,11 +27,24 @@
                 <input asp-for="email" class="form-control" />
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="gelmeDurumu" /> @Html.DisplayNameFor(model => model.gelmeDurumu)
-                </label>
-            </div>
+			<div>
+				<label asp-for="gelmeDurumu" class="control-label"></label>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x=> x.gelmeDurumu, new[] {new SelectListItem()
+               {
+                   Text="Evet Geliyorum",Value=bool.TrueString
+               },
+               new SelectListItem()
+               {
+                   Text="Hayir,Melasef Gelemiyorum,",Value=bool.FalseString
+               }
+               },"Katılma Durumunu Seçiniz",new {@class="form-control"}
+
+				   )
+                </div>
+
+			</div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
