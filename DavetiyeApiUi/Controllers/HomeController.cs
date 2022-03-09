@@ -25,9 +25,9 @@ namespace DavetiyeApiUi.Controllers
                 var result = responseTalk.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsStringAsync();
-                    var davet = readTask.Result;
-                    hList = JsonConvert.DeserializeObject<List<Davetiye>>(davet);
+                    var readTask = result.Content.ReadAsStringAsync();//resultun content ıcergını oku
+                    var davet = readTask.Result;//Sonuc dondu
+                    hList = JsonConvert.DeserializeObject<List<Davetiye>>(davet);//
 
                 }
 
@@ -84,12 +84,15 @@ namespace DavetiyeApiUi.Controllers
         public IActionResult Create(Davetiye ent)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44369/api/");
             var stringContent = new StringContent(JsonConvert.SerializeObject(ent), Encoding.UTF8, "application/json");
-            var result = client.PostAsync("Home", stringContent);
+            var result = client.PostAsync("https://localhost:44369/api/Home", stringContent);
             result.Wait();
-            return RedirectToAction("Index", "Home");
-
+            if (result.IsCompletedSuccessfully)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return NotFound("Ekleme Yapılamadı");
+          
         }
 
         public IActionResult Edit(int id)
